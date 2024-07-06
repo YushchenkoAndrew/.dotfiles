@@ -1,0 +1,39 @@
+#!/bin/sh
+
+HISTFILE=$HOME/.zsh_history
+setopt appendhistory
+
+HISTSIZE=1000000
+SAVEHIST=1000000
+
+export PATH="$HOME/.local/bin":$PATH
+
+export MANPAGER='nvim +Man!'
+export MANWIDTH=999
+
+export NVM_DIR="$HOME/.nvm"
+#[ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"  # This loads nvm
+#[ -s "$NVM_DIR/bash_completion" ] && \. "$NVM_DIR/bash_completion"  # This loads nvm bash_completion
+
+NODE_GLOBALS=(`find ~/.nvm/versions/node -maxdepth 3 -type l -wholename '*/bin/*' | xargs -n1 basename | sort | uniq`)
+NODE_GLOBALS+=(node nvm npm)
+
+_load_nvm() {
+[ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"
+[ -s "$NVM_DIR/bash_completion" ] && \. "$NVM_DIR/bash_completion"  # This loads nvm bash_completion
+}
+
+for cmd in "${NODE_GLOBALS[@]}"; do
+eval "function ${cmd}(){ unset -f ${NODE_GLOBALS[*]}; _load_nvm; unset -f _load_nvm; ${cmd} \$@; }"
+done
+unset cmd NODE_GLOBALS
+
+export PATH="$PATH:$HOME/.npm/bin"
+
+eval "$(zoxide init zsh)"
+
+# disable background color
+eval "$(dircolors -p | \
+    sed 's/ 4[0-9];/ 01;/; s/;4[0-9];/;01;/g; s/;4[0-9] /;01 /' | \
+    dircolors /dev/stdin)"
+
