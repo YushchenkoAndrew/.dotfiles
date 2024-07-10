@@ -38,3 +38,33 @@ function yy() {
 	fi
 	rm -f -- "$tmp"
 }
+
+# Create wrappers around common nvm consumers.
+# nvm, node, yarn and npm will load nvm.sh on their first invocation,
+# posing no start up time penalty for the shells that aren't going to use them at all.
+# There is only single time penalty for one shell.
+
+function load-nvm() {
+  export NVM_DIR="$HOME/.nvm"
+  [ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"  # This loads nvm
+  # [ -s "$NVM_DIR/bash_completion" ] && \. "$NVM_DIR/bash_completion"  # This loads nvm bash_completion
+}
+
+function nvm() {
+    unset -f nvm
+    load-nvm
+    nvm "$@"
+}
+
+function node() {
+    unset -f node
+    load-nvm
+    node "$@"
+}
+
+function npm() {
+    unset -f npm
+    load-nvm
+    npm "$@"
+}
+
