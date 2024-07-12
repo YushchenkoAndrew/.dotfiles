@@ -19,7 +19,7 @@
   ],
   "modules-right": [
     // "tray",
-    // "group/audio",
+    "group/audio",
     "group/connection",
     "custom/language",
     "group/hardware",
@@ -48,7 +48,7 @@
   "group/connection": {
     "orientation": "horizontal",
     "modules": [
-      "bluetooth",
+      // "bluetooth",
       "network"
     ]
   },
@@ -133,12 +133,12 @@
   "cpu": {
     "interval": 1,
     "format": " {usage}%",
-    "on-click": "hyprctl dispatch exec 'kitty -e btm'"
+    "on-click": "hyprctl dispatch exec 'kitty -e btop'"
   },
   "memory": {
     "interval": 1,
     "format": " {}%",
-    "on-click": "hyprctl dispatch exec 'kitty -e htop'"
+    "on-click": "hyprctl dispatch exec 'kitty -e btop'"
   },
   "temperature": {
     "interval": 1,
@@ -214,11 +214,11 @@
   },
   "pulseaudio": {
     "format": "{icon} {volume}%",
-    "format-muted": "  Muted",
-    "on-click": "pamixer -t",
+    "format-muted": " ",
+    "on-click": "pactl set-sink-mute @DEFAULT_SINK@ toggle",
     "on-click-right": "pavucontrol",
-    "on-scroll-up": "wpctl set-volume @DEFAULT_AUDIO_SINK@ 1%+",
-    "on-scroll-down": "wpctl set-volume @DEFAULT_AUDIO_SINK@ 1%-",
+    "on-scroll-up": "pactl set-sink-volume @DEFAULT_SINK@ +5%",
+    "on-scroll-down": "pactl set-sink-volume @DEFAULT_SINK@ -5%",
     "scroll-step": 5,
     "format-icons": {
       "headphone": " ",
@@ -238,9 +238,9 @@
     "format": "{format_source}",
     "format-source": " {volume}%",
     "format-source-muted": " ",
-    "on-click": "pamixer --default-source -t",
-    "on-scroll-up": "pamixer --default-source -i 5",
-    "on-scroll-down": "pamixer --default-source -d 5",
+    "on-click": "pactl set-source-mute @DEFAULT_SOURCE@ toggle",
+    "on-scroll-up": "pactl set-source-volume @DEFAULT_SOURCE@ +5%",
+    "on-scroll-down": "pactl set-source-volume @DEFAULT_SOURCE@ -5%",
     "scroll-step": 5
   }
 }
