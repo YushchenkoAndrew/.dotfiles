@@ -13,18 +13,14 @@ export KUBECONFIG=$HOME/.config/kube/config
 
 export MANPAGER='nvim +Man!'
 export MANWIDTH=999
+export CLICOLOR=1
 
 # export NVM_DIR="$HOME/.nvm"
 # [ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"  # This loads nvm
 # [ -s "$NVM_DIR/bash_completion" ] && \. "$NVM_DIR/bash_completion"  # This loads nvm bash_completion
 
-. /usr/share/LS_COLORS/dircolors.sh
-
 
 eval "$(zoxide init zsh)"
+eval "$(/usr/local/bin/brew shellenv)"
 
-# disable background color
-eval "$(dircolors -p | \
-    sed 's/ 4[0-9];/ 01;/; s/;4[0-9];/;01;/g; s/;4[0-9] /;01 /' | \
-    dircolors /dev/stdin)"
 
